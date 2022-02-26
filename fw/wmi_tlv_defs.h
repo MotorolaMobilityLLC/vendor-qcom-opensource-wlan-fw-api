@@ -1242,7 +1242,6 @@ typedef enum {
     WMITLV_TAG_STRUC_wmi_rtt_pasn_deauth_cmd_fixed_param,
     WMITLV_TAG_STRUC_wmi_tx_send_params_ext,
     WMITLV_TAG_STRUC_wmi_mgmt_rx_params_ext,
-    WMITLV_TAG_STRUC_wmi_partner_link_stats,
 } WMITLV_TAG_ID;
 
 /*
