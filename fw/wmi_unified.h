@@ -1510,8 +1510,6 @@ typedef enum {
     WMI_BPF_SET_VDEV_ENABLE_CMDID,
     WMI_BPF_SET_VDEV_WORK_MEMORY_CMDID,
     WMI_BPF_GET_VDEV_WORK_MEMORY_CMDID,
-    WMI_BPF_SET_SUPPORTED_OFFLOAD_BITMAP_CMDID,
-    WMI_BPF_SET_APF_MODE_CMDID,
 
     /** WMI commands related to monitor mode. */
     WMI_MNT_FILTER_CMDID = WMI_CMD_GRP_START_ID(WMI_GRP_MONITOR),
@@ -4787,27 +4785,6 @@ typedef struct {
      * number of max active partner links of a ML BSS
      */
     A_UINT32 num_max_active_mlo_link_per_ml_bss;
-
-    /**
-     * @brief apf_data_ofld_enable
-     * BIT 0  -> enable/disable offload support in apf
-     *           @detail: This flag will indicate during init time
-     *           based on the vendor img version if APF is supporting
-     *           any offloads.
-     * BIT 1 : 31 Reserved
-     */
-    union {
-        A_UINT32 apf_data_ofload_enable__word;
-        struct {
-            A_UINT32
-                apf_data_ofld_enable: 1,
-                reserved: 31;
-        };
-    };
-#define WMI_RSRC_CFG_APF_DATA_OFLD_ENABLE_GET(word32) \
-    WMI_GET_BITS(word32, 0, 1)
-#define WMI_RSRC_CFG_APF_DATA_OFLD_ENABLE_SET(word32, value) \
-    WMI_SET_BITS(word32, 0, 1, value)
 } wmi_resource_config;
 
 #define WMI_MSDU_FLOW_AST_ENABLE_GET(msdu_flow_config0, ast_x) \
@@ -32692,79 +32669,6 @@ typedef struct wmi_bpf_get_vdev_work_memory_resp_evt_s {
  */
 } wmi_bpf_get_vdev_work_memory_resp_evt_fixed_param;
 
-/* APF offloads supported bitmap:
- *
- * BIT 0: ARP OFFLOAD
- * BIT 1: NS OFFLOAD
- * BIT 2: IGMP OFFLOAD
- * BIT 3: ICMP OFFLOAD
- * BIT 4-31: reserved
- */
-#define WMI_BPF_ARP_OFFLOAD_SUPPORT_GET(param) \
-    WMI_GET_BITS(param, 0, 1)
-#define WMI_BPF_ARP_OFFLOAD_SUPPORT_SET(param, value) \
-    WMI_SET_BITS(param, 0, 1, value)
-
-#define WMI_BPF_NS_OFFLOAD_SUPPORT_GET(param) \
-    WMI_GET_BITS(param, 1, 1)
-#define WMI_BPF_NS_OFFLOAD_SUPPORT_SET(param, value) \
-    WMI_SET_BITS(param, 1, 1, value)
-
-#define WMI_BPF_IGMP_OFFLOAD_SUPPORT_GET(param) \
-    WMI_GET_BITS(param, 2, 1)
-#define WMI_BPF_IGMP_OFFLOAD_SUPPORT_SET(param, value) \
-    WMI_SET_BITS(param, 2, 1, value)
-
-#define WMI_BPF_ICMP_OFFLOAD_SUPPORT_GET(param) \
-    WMI_GET_BITS(param, 3, 1)
-#define WMI_BPF_ICMP_OFFLOAD_SUPPORT_SET(param, value) \
-    WMI_SET_BITS(param, 3, 1, value)
-
-typedef struct wmi_bpf_set_supported_offload_bitmap_cmd_s {
-    A_UINT32 tlv_header;
-    A_UINT32 vdev_id;
-    /* ofld_bitmap:
-     * Host sends bitmap for APF supported offloads.
-     * Refer to the above WMI_BPF_ macros for the interpretation of the bits
-     * within the bitmap.
-     */
-    A_UINT32 ofld_bitmap;
-} wmi_bpf_set_supported_offload_bitmap_cmd_fixed_param;
-
-/* APF modes: */
-typedef enum {
-    /* Default value: 0 */
-    wmi_apf_mode_default = 0,
-
-    /* Mode 1: value 1: APF to operate only during system suspend. */
-    wmi_apf_mode_system_suspend = 1,
-
-    /* Mode 2: value 2:
-     * Downgrade the APF capability of the firmware to a lower version
-     * (from V6 to V4).
-     */
-    wmi_apf_mode_capability_v4 = 2,
-
-    /* Mode combination: value 3:
-     * Downgrade to APFv4 and enable only in system suspend.
-     */
-    wmi_apf_mode_system_suspend_and_capability_v4 = 3,
-
-    /* Mode 3: value 4: Turn off APF completely. */
-    wmi_apf_mode_off = 4,
-} wmi_apf_modes;
-
-typedef struct wmi_bpf_set_apf_mode_cmd_s {
-    A_UINT32 tlv_header; /* tag = WMITLV_TAG_STRUC_wmi_bpf_set_apf_mode_cmd_fixed_param */
-    A_UINT32 vdev_id;
-    /* apf_mode:
-     * Host indicates the APF mode (or combination of modes).
-     * Refer to the wmi_apf_modes enum for the interpretation of the
-     * apf_mode value.
-     */
-    A_UINT32 apf_mode; /* holds a wmi_apf_modes value */
-} wmi_bpf_set_apf_mode_cmd_fixed_param;
-
 #define AES_BLOCK_LEN           16  /* in bytes */
 #define FIPS_KEY_LENGTH_128     16  /* in bytes */
 #define FIPS_KEY_LENGTH_256     32  /* in bytes */
@@ -37255,8 +37159,6 @@ static INLINE A_UINT8 *wmi_id_to_name(A_UINT32 wmi_command)
         WMI_RETURN_STRING(WMI_BPF_SET_VDEV_ENABLE_CMDID);
         WMI_RETURN_STRING(WMI_BPF_SET_VDEV_WORK_MEMORY_CMDID);
         WMI_RETURN_STRING(WMI_BPF_GET_VDEV_WORK_MEMORY_CMDID);
-        WMI_RETURN_STRING(WMI_BPF_SET_SUPPORTED_OFFLOAD_BITMAP_CMDID);
-        WMI_RETURN_STRING(WMI_BPF_SET_APF_MODE_CMDID);
         WMI_RETURN_STRING(WMI_BSS_COLOR_CHANGE_ENABLE_CMDID);
         WMI_RETURN_STRING(WMI_OBSS_COLOR_COLLISION_DET_CONFIG_CMDID);
         WMI_RETURN_STRING(WMI_RUNTIME_DPD_RECAL_CMDID);

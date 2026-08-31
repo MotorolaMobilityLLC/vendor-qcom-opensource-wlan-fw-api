@@ -1428,8 +1428,6 @@ typedef enum {
     WMITLV_TAG_STRUC_wmi_dcs_obss_int_t,
     WMITLV_TAG_STRUC_wmi_pdev_wifi_radar_cal_completion_status_event_param,
     WMITLV_TAG_STRUC_wmi_sar_flags,
-    WMITLV_TAG_STRUC_wmi_bpf_set_supported_offload_bitmap_cmd_fixed_param,
-    WMITLV_TAG_STRUC_wmi_bpf_set_apf_mode_cmd_fixed_param,
 } WMITLV_TAG_ID;
 /*
  * IMPORTANT: Please add _ALL_ WMI Commands Here.
@@ -1790,8 +1788,6 @@ typedef enum {
     OP(WMI_BPF_SET_VDEV_ENABLE_CMDID) \
     OP(WMI_BPF_SET_VDEV_WORK_MEMORY_CMDID) \
     OP(WMI_BPF_GET_VDEV_WORK_MEMORY_CMDID) \
-    OP(WMI_BPF_SET_SUPPORTED_OFFLOAD_BITMAP_CMDID) \
-    OP(WMI_BPF_SET_APF_MODE_CMDID) \
     OP(WMI_PDEV_GET_NFCAL_POWER_CMDID) \
     OP(WMI_BSS_COLOR_CHANGE_ENABLE_CMDID) \
     OP(WMI_OBSS_COLOR_COLLISION_DET_CONFIG_CMDID) \
@@ -4409,14 +4405,6 @@ WMITLV_CREATE_PARAM_STRUC(WMI_BPF_SET_VDEV_WORK_MEMORY_CMDID);
 #define WMITLV_TABLE_WMI_BPF_GET_VDEV_WORK_MEMORY_CMDID(id,op,buf,len) \
   WMITLV_ELEM(id,op,buf,len, WMITLV_TAG_STRUC_wmi_bpf_get_vdev_work_memory_cmd_fixed_param, wmi_bpf_get_vdev_work_memory_cmd_fixed_param, fixed_param, WMITLV_SIZE_FIX)
 WMITLV_CREATE_PARAM_STRUC(WMI_BPF_GET_VDEV_WORK_MEMORY_CMDID);
-
-#define WMITLV_TABLE_WMI_BPF_SET_SUPPORTED_OFFLOAD_BITMAP_CMDID(id,op,buf,len) \
-  WMITLV_ELEM(id,op,buf,len, WMITLV_TAG_STRUC_wmi_bpf_set_supported_offload_bitmap_cmd_fixed_param, wmi_bpf_set_supported_offload_bitmap_cmd_fixed_param, fixed_param, WMITLV_SIZE_FIX)
-WMITLV_CREATE_PARAM_STRUC(WMI_BPF_SET_SUPPORTED_OFFLOAD_BITMAP_CMDID);
-
-#define WMITLV_TABLE_WMI_BPF_SET_APF_MODE_CMDID(id,op,buf,len) \
-  WMITLV_ELEM(id,op,buf,len, WMITLV_TAG_STRUC_wmi_bpf_set_apf_mode_cmd_fixed_param, wmi_bpf_set_apf_mode_cmd_fixed_param, fixed_param, WMITLV_SIZE_FIX)
-WMITLV_CREATE_PARAM_STRUC(WMI_BPF_SET_APF_MODE_CMDID);
 
 /* Enable/Disable Smart Antenna */
 #define WMITLV_TABLE_WMI_PDEV_SMART_ANT_ENABLE_CMDID(id,op,buf,len) \
