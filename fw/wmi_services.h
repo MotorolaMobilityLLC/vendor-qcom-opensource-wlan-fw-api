@@ -653,6 +653,7 @@ typedef  enum  {
     WMI_SERVICE_WIFI_RADAR_SUPPORT = 400, /* FW supports wifi radar */
     WMI_SERVICE_P2P_DEVICE_UPDATE_MAC_ADDR_SUPPORT = 401, /* indicate FW support dynamic update mac address for P2P device */
     WMI_SERVICE_DCS_OBSS_INT_SUPPORT = 402, /* Indicates FW supports OBSS Interference detection */
+    WMI_SERVICE_APF_DATA_OFFLOAD_SUPPORT_ENABLED = 442, /* Indicates FW support for APFv6 handling offloads and disable QC data offloads */
 
 
     WMI_MAX_EXT2_SERVICE
